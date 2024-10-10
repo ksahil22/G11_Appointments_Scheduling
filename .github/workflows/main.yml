@@ -1,9 +1,13 @@
 name: "Build & Release"
 on:
   pull_request:
-    branches: main
+    branches:
+    - main
+    - 'feature/*'
   push:
-    branches: main
+    branches:
+    - main
+    - 'feature/*'
 jobs:  # Telling what jobs we need to happen
   build:      # Specify the building name and machine
     name: Build  # you can name the build whatever you want
