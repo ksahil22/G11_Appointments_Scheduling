@@ -36,7 +36,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height / 80),
                 Text(
-                  "Join us and explore the new horizons!",
+                  "x",
                   style: kSmallParaTextStyle,
                   textAlign: TextAlign.center,
                 ),

@@ -151,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Text.rich(
                       TextSpan(children: [
                         TextSpan(
-                          text: "Don't have account? ",
+                          text: "Don't have account?",
                           style: kSmallParaTextStyle.copyWith(
                               color: Colors.black, fontSize: 12),
                         ),
