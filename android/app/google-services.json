@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "693976677823",
+    "project_id": "medischedule-e9c94",
+    "storage_bucket": "medischedule-e9c94.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693976677823:android:95fc51b766b64d715bf50a",
+        "android_client_info": {
+          "package_name": "com.example.MediSchedule"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8Ix4mKFOh12S-0h3ILrskGYX8j52rAwE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693976677823:android:2a7003fd43c7d2725bf50a",
+        "android_client_info": {
+          "package_name": "com.example.g11_appointment_scheduling"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8Ix4mKFOh12S-0h3ILrskGYX8j52rAwE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
