@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:g11_appointment_scheduling/constants/color_const.dart';
 import 'package:g11_appointment_scheduling/constants/text_const.dart';
+import 'package:g11_appointment_scheduling/firebase_auth/user_auth_service.dart';
 // import 'package:g11_appointment_scheduling/views/home_screen.dart';
 import 'package:g11_appointment_scheduling/views/signin_screen.dart';
 
 class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
+
   @override
   _SignupPageState createState() => _SignupPageState();
 }
 
 class _SignupPageState extends State<SignupPage> {
   bool _obscurePassword = true;
-  TextEditingController _firstNameController = TextEditingController();
-  TextEditingController _lastNameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   bool _nameError = false;
   bool _emailError = false;
 
@@ -47,15 +50,15 @@ class _SignupPageState extends State<SignupPage> {
                   _lastNameController,
                   _nameError ? "Name cannot be empty" : null,
                 ),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 _buildTextInput(
                     "Email",
                     _emailController,
                     TextInputType.emailAddress,
                     _emailError ? 'Email cannot be empty' : null),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 _buildPasswordInput(),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 _buildSignupButton(),
                 SizedBox(height: MediaQuery.of(context).size.height / 60),
                 _buildSigninOption(),
@@ -100,7 +103,7 @@ class _SignupPageState extends State<SignupPage> {
           child: _buildTextInput(
               labelText, firstController, TextInputType.text, errorText),
         ),
-        SizedBox(width: 12),
+        const SizedBox(width: 12),
         Expanded(
           child: _buildTextInput(
               "Last Name", secondController, TextInputType.text, errorText),
@@ -114,7 +117,7 @@ class _SignupPageState extends State<SignupPage> {
     return ClipPath(
       clipper: ShapeBorderClipper(
         shape: ContinuousRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(30)),
+            borderRadius: const BorderRadius.all(Radius.circular(30)),
             side: BorderSide(
               color: softGrayStrokeCustomColor,
               width: 2,
@@ -142,7 +145,7 @@ class _SignupPageState extends State<SignupPage> {
     return ClipPath(
       clipper: ShapeBorderClipper(
         shape: ContinuousRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(30)),
+            borderRadius: const BorderRadius.all(Radius.circular(30)),
             side: BorderSide(
               color: softGrayStrokeCustomColor,
               width: 2,
@@ -188,19 +191,19 @@ class _SignupPageState extends State<SignupPage> {
               _nameError = _firstNameController.text.isEmpty;
               _emailError = _emailController.text.isEmpty;
             });
+            
+            if (!_nameError && !_emailError) {
+              bool? success = await SignInBackend().registerWithEmail(
+                  _emailController.text,
+                  _passwordController.text,
+                  _firstNameController.text,
+                  _lastNameController.text,
+                  context);
 
-            // if (!_nameError && !_emailError) {
-            //   bool? success = await SignInBackend().registerWithEmail(
-            //       _emailController.text,
-            //       _passwordController.text,
-            //       _firstNameController.text,
-            //       _lastNameController.text,
-            //       context);
-
-            //   if (success != null && success) {
-            //     Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-            //   }
-            // }
+              // if (success != null && success) {
+              //   Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+              // }
+            }
           },
           style: ButtonStyle(
             shape: WidgetStateProperty.all<RoundedRectangleBorder>(
@@ -226,7 +229,7 @@ class _SignupPageState extends State<SignupPage> {
       child: GestureDetector(
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => LoginScreen()));
+              context, MaterialPageRoute(builder: (context) => const LoginScreen()));
         },
         child: Text.rich(
           TextSpan(children: [
