@@ -7,6 +7,7 @@ import 'package:g11_appointment_scheduling/components/service_square_card.dart';
 import 'package:g11_appointment_scheduling/constants/color_const.dart';
 import 'package:g11_appointment_scheduling/constants/const.dart';
 import 'package:g11_appointment_scheduling/constants/text_const.dart';
+import 'package:g11_appointment_scheduling/firebase_auth/user_auth_service.dart';
 import 'package:g11_appointment_scheduling/models/appointment_model.dart';
 import 'package:g11_appointment_scheduling/models/doctor_model.dart';
 import 'package:g11_appointment_scheduling/views/signin_screen.dart';
@@ -149,9 +150,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 'Log out',
                 style: kSubHeadingTextStyle,
               ),
-              onTap: () {
-                // Handle drawer item tap
-                Navigator.push(context,
+              onTap: () async {
+                await SignInBackend().logout(context);
+                Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => LoginScreen()));
               },
             ),
