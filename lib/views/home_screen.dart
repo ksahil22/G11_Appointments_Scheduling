@@ -96,20 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             ListTile(
               leading: Icon(
-                Icons.monitor_heart_outlined,
-                color: TealThemeCustomColor,
-              ),
-              title: Text(
-                'Donations',
-                style: kSubHeadingTextStyle,
-              ),
-              onTap: () {
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => DonationScreen()));
-              },
-            ),
-            ListTile(
-              leading: Icon(
                 Icons.person_add_alt_1_outlined,
                 color: TealThemeCustomColor,
               ),
@@ -126,6 +112,20 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             ListTile(
               leading: Icon(
+                Icons.monitor_heart_outlined,
+                color: TealThemeCustomColor,
+              ),
+              title: Text(
+                'Donations',
+                style: kSubHeadingTextStyle,
+              ),
+              onTap: () {
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => DonationScreen()));
+              },
+            ),
+            ListTile(
+              leading: Icon(
                 Icons.add_circle_outline_rounded,
                 color: TealThemeCustomColor,
               ),
@@ -138,19 +138,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 //     context,
                 //     MaterialPageRoute(
                 //         builder: (context) => NewDonationCampaignScreen()));
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.chat_outlined,
-                color: TealThemeCustomColor,
-              ),
-              title: Text(
-                'Chats',
-                style: kSubHeadingTextStyle,
-              ),
-              onTap: () {
-                // Handle drawer item tap
               },
             ),
             ListTile(
