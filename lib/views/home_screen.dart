@@ -7,6 +7,7 @@ import 'package:g11_appointment_scheduling/components/service_square_card.dart';
 import 'package:g11_appointment_scheduling/constants/color_const.dart';
 import 'package:g11_appointment_scheduling/constants/const.dart';
 import 'package:g11_appointment_scheduling/constants/text_const.dart';
+import 'package:g11_appointment_scheduling/firebase_auth/user_auth_service.dart';
 import 'package:g11_appointment_scheduling/models/appointment_model.dart';
 import 'package:g11_appointment_scheduling/models/doctor_model.dart';
 import 'package:g11_appointment_scheduling/views/signin_screen.dart';
@@ -96,20 +97,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             ListTile(
               leading: Icon(
-                Icons.monitor_heart_outlined,
-                color: TealThemeCustomColor,
-              ),
-              title: Text(
-                'Donations',
-                style: kSubHeadingTextStyle,
-              ),
-              onTap: () {
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => DonationScreen()));
-              },
-            ),
-            ListTile(
-              leading: Icon(
                 Icons.person_add_alt_1_outlined,
                 color: TealThemeCustomColor,
               ),
@@ -122,6 +109,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 //     context,
                 //     MaterialPageRoute(
                 //         builder: (context) => AddNewDoctorScreen()));
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.monitor_heart_outlined,
+                color: TealThemeCustomColor,
+              ),
+              title: Text(
+                'Donations',
+                style: kSubHeadingTextStyle,
+              ),
+              onTap: () {
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => DonationScreen()));
               },
             ),
             ListTile(
@@ -142,19 +143,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             ListTile(
               leading: Icon(
-                Icons.chat_outlined,
-                color: TealThemeCustomColor,
-              ),
-              title: Text(
-                'Chats',
-                style: kSubHeadingTextStyle,
-              ),
-              onTap: () {
-                // Handle drawer item tap
-              },
-            ),
-            ListTile(
-              leading: Icon(
                 Icons.logout_rounded,
                 color: TealThemeCustomColor,
               ),
@@ -162,9 +150,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 'Log out',
                 style: kSubHeadingTextStyle,
               ),
-              onTap: () {
-                // Handle drawer item tap
-                Navigator.push(context,
+              onTap: () async {
+                await SignInBackend().logout(context);
+                Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => LoginScreen()));
               },
             ),
