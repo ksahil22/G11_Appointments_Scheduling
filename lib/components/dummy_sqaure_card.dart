@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:g11_appointment_scheduling/constants/color_const.dart';
 import 'package:g11_appointment_scheduling/constants/text_const.dart';
-import 'package:g11_appointment_scheduling/models/doctor_model.dart';
+import 'package:g11_appointment_scheduling/views/service_detail_screen.dart';
 
 class DummySquareCard extends StatelessWidget {
   // final DoctorModel model;
@@ -16,13 +16,8 @@ class DummySquareCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         // Add navigation to service detail screen
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => ServicesDetailScreen(
-        //               serviceId: model.doctorId,
-        //               serviceModel: model,
-        //             )));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ServicesDetailScreen()));
       },
       child: Card(
         shape: ContinuousRectangleBorder(
@@ -44,7 +39,7 @@ class DummySquareCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.46),
                   image: DecorationImage(
-                    image: AssetImage('assets/images/filter.png'),
+                    image: AssetImage('assets/images/doc.png'),
                     fit: BoxFit.cover,
                   ),
                 ),

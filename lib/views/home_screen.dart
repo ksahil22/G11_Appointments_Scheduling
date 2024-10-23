@@ -1,15 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:g11_appointment_scheduling/components/dummy_appointment_card.dart';
 import 'package:g11_appointment_scheduling/components/dummy_sqaure_card.dart';
 import 'package:g11_appointment_scheduling/constants/color_const.dart';
-import 'package:g11_appointment_scheduling/constants/const.dart';
 import 'package:g11_appointment_scheduling/constants/text_const.dart';
 import 'package:g11_appointment_scheduling/firebase_auth/user_auth_service.dart';
-import 'package:g11_appointment_scheduling/models/appointment_model.dart';
-import 'package:g11_appointment_scheduling/models/doctor_model.dart';
+
 import 'package:g11_appointment_scheduling/views/admin_dashboard_screen.dart';
 import 'package:g11_appointment_scheduling/views/all_service_screen.dart';
 import 'package:g11_appointment_scheduling/views/signin_screen.dart';
@@ -22,44 +18,44 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<DoctorModel> doctorsList = [];
-  List<AppointmentModel> appointments = [];
+  // List<DoctorModel> doctorsList = [];
+  // List<AppointmentModel> appointments = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Future<List<DoctorModel>> getServices() async {
-    final servicesSnapshot = await FirebaseFirestore.instance
-        .collection(Constants.fcDoctorNode)
-        .get();
-    int count = servicesSnapshot.docs.length;
-    servicesSnapshot.docs.forEach((service) {
-      if (doctorsList.length < count) {
-        doctorsList.add(DoctorModel.fromJson(service.data()));
-      }
-    });
+  // Future<List<DoctorModel>> getServices() async {
+  //   final servicesSnapshot = await FirebaseFirestore.instance
+  //       .collection(Constants.fcDoctorNode)
+  //       .get();
+  //   int count = servicesSnapshot.docs.length;
+  //   servicesSnapshot.docs.forEach((service) {
+  //     if (doctorsList.length < count) {
+  //       doctorsList.add(DoctorModel.fromJson(service.data()));
+  //     }
+  //   });
 
-    return doctorsList;
-  }
+  //   return doctorsList;
+  // }
 
-  Future<List<AppointmentModel>> getUpcomingAppointmentForUser() async {
-    try {
-      await FirebaseFirestore.instance
-          .collection(Constants.fcAppointments)
-          .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-          .where('apptStatus', isEqualTo: Constants.appointmentActive)
-          .get()
-          .then((querySnapshot) {
-        int count = querySnapshot.docs.length;
-        querySnapshot.docs.forEach((doc) {
-          if (appointments.length < count) {
-            appointments.add(AppointmentModel.fromJson(doc.data()));
-          }
-        });
-      });
-      return appointments;
-    } catch (e) {
-      return [];
-    }
-  }
+  // Future<List<AppointmentModel>> getUpcomingAppointmentForUser() async {
+  //   try {
+  //     await FirebaseFirestore.instance
+  //         .collection(Constants.fcAppointments)
+  //         .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+  //         .where('apptStatus', isEqualTo: Constants.appointmentActive)
+  //         .get()
+  //         .then((querySnapshot) {
+  //       int count = querySnapshot.docs.length;
+  //       querySnapshot.docs.forEach((doc) {
+  //         if (appointments.length < count) {
+  //           appointments.add(AppointmentModel.fromJson(doc.data()));
+  //         }
+  //       });
+  //     });
+  //     return appointments;
+  //   } catch (e) {
+  //     return [];
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

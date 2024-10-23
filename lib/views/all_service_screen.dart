@@ -18,17 +18,17 @@ class _ServicesListScreenState extends State<ServicesListScreen> {
       {
         "doctorName": "Dr. John Doe",
         "about": "Cardiologist with 10 years of experience",
-        "image": "assets/images/filter.png"
+        "image": "assets/images/doc.png"
       },
       {
         "doctorName": "Dr. Jane Smith",
         "about": "Neurologist specializing in brain disorders",
-        "image": "assets/images/filter.png"
+        "image": "assets/images/doc.png"
       },
       {
         "doctorName": "Dr. Emily White",
         "about": "Pediatrician with a passion for child care",
-        "image": "assets/images/filter.png"
+        "image": "assets/images/doc.png"
       },
     ];
 
