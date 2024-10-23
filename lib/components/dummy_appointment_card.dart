@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:g11_appointment_scheduling/constants/color_const.dart';
 import 'package:g11_appointment_scheduling/constants/text_const.dart';
 
-class AppointmentCard extends StatelessWidget {
+class DummyAppointmentCard extends StatelessWidget {
   final String title;
   final String day;
   final String time;
   // final String petname;
 
-  const AppointmentCard({
+  const DummyAppointmentCard({
     Key? key,
     required this.title,
     required this.day,

@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:g11_appointment_scheduling/components/appointment_rectangle_card.dart';
+import 'package:g11_appointment_scheduling/components/dummy_appointment_card.dart';
+import 'package:g11_appointment_scheduling/components/dummy_sqaure_card.dart';
 import 'package:g11_appointment_scheduling/components/service_square_card.dart';
 import 'package:g11_appointment_scheduling/constants/color_const.dart';
 import 'package:g11_appointment_scheduling/constants/const.dart';
@@ -10,6 +12,7 @@ import 'package:g11_appointment_scheduling/constants/text_const.dart';
 import 'package:g11_appointment_scheduling/firebase_auth/user_auth_service.dart';
 import 'package:g11_appointment_scheduling/models/appointment_model.dart';
 import 'package:g11_appointment_scheduling/models/doctor_model.dart';
+import 'package:g11_appointment_scheduling/views/all_service_screen.dart';
 import 'package:g11_appointment_scheduling/views/signin_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -240,11 +243,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: double.infinity,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (context) =>
-                                  //             const ServicesListScreen()));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ServicesListScreen()));
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor:
@@ -283,11 +286,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) =>
-                            //             const ServicesListScreen()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ServicesListScreen()));
                           },
                           child: Row(
                             children: [
@@ -311,31 +314,37 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 80,
                     ),
-                    FutureBuilder(
-                        future: getServices(),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Center(child: CircularProgressIndicator());
-                          } else if (snapshot.hasError) {
-                            return Center(
-                                child: Text('Error: ${snapshot.error}'));
-                          } else {
-                            return Container(
-                              height: MediaQuery.of(context).size.height / 6.5,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: doctorsList.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return ServiceSquareCard(
-                                    model: doctorsList[index],
-                                  );
-                                },
-                              ),
-                            );
-                          }
-                        }),
+                    Row(
+                      children: [
+                        DummySquareCard(),
+                        DummySquareCard(),
+                      ],
+                    ),
+                    // FutureBuilder(
+                    //     future: getServices(),
+                    //     builder: (context, snapshot) {
+                    //       if (snapshot.connectionState ==
+                    //           ConnectionState.waiting) {
+                    //         return Center(child: CircularProgressIndicator());
+                    //       } else if (snapshot.hasError) {
+                    //         return Center(
+                    //             child: Text('Error: ${snapshot.error}'));
+                    //       } else {
+                    //         return Container(
+                    //           height: MediaQuery.of(context).size.height / 6.5,
+                    //           child: ListView.builder(
+                    //             shrinkWrap: true,
+                    //             scrollDirection: Axis.horizontal,
+                    //             itemCount: doctorsList.length,
+                    //             itemBuilder: (BuildContext context, int index) {
+                    //               return ServiceSquareCard(
+                    //                 model: doctorsList[index],
+                    //               );
+                    //             },
+                    //           ),
+                    //         );
+                    //       }
+                    //     }),
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 60,
                     ),
@@ -344,30 +353,47 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: kSubHeadingTextStyle.copyWith(
                           fontWeight: FontWeight.bold),
                     ),
-                    FutureBuilder(
-                        future: getUpcomingAppointmentForUser(),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Center(child: CircularProgressIndicator());
-                          } else if (snapshot.hasError) {
-                            return Center(
-                                child: Text('Error: ${snapshot.error}'));
-                          } else {
-                            return ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: appointments.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return AppointmentCard(
-                                    title: appointments[index].username,
-                                    day: appointments[index].apptDate,
-                                    time: appointments[index].apptTime,
-                                    petname: appointments[index].username);
-                              },
-                            );
-                          }
-                        }),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 60,
+                    ),
+                    Column(
+                      children: [
+                        DummyAppointmentCard(
+                          title: "title",
+                          day: "day",
+                          time: "time",
+                        ),
+                        DummyAppointmentCard(
+                          title: "title",
+                          day: "day",
+                          time: "time",
+                        ),
+                      ],
+                    )
+                    // FutureBuilder(
+                    //     future: getUpcomingAppointmentForUser(),
+                    //     builder: (context, snapshot) {
+                    //       if (snapshot.connectionState ==
+                    //           ConnectionState.waiting) {
+                    //         return Center(child: CircularProgressIndicator());
+                    //       } else if (snapshot.hasError) {
+                    //         return Center(
+                    //             child: Text('Error: ${snapshot.error}'));
+                    //       } else {
+                    //         return ListView.builder(
+                    //           shrinkWrap: true,
+                    //           physics: const NeverScrollableScrollPhysics(),
+                    //           itemCount: appointments.length,
+                    //           itemBuilder: (BuildContext context, int index) {
+                    //             return AppointmentCard(
+                    //                 title: appointments[index].username,
+                    //                 day: appointments[index].apptDate,
+                    //                 time: appointments[index].apptTime,
+                    //                 petname: appointments[index].username);
+                    //           },
+                    //         );
+                    //       }
+                    //     }),
                   ]),
             ),
           ]),
