@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:g11_appointment_scheduling/constants/color_const.dart';
 import 'package:g11_appointment_scheduling/constants/text_const.dart';
+import 'package:g11_appointment_scheduling/views/service_detail_screen.dart';
 
 class ServiceCard extends StatelessWidget {
   final String image;
@@ -18,7 +19,10 @@ class ServiceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Add navigation to the detailed screen when required
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const ServicesDetailScreen()));
       },
       child: Card(
         shape: ContinuousRectangleBorder(

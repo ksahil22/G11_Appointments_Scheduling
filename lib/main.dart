@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:g11_appointment_scheduling/views/home_screen.dart';
-import 'package:g11_appointment_scheduling/views/signin_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
