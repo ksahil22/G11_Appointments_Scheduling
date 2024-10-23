@@ -2,16 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:g11_appointment_scheduling/components/appointment_rectangle_card.dart';
 import 'package:g11_appointment_scheduling/components/dummy_appointment_card.dart';
 import 'package:g11_appointment_scheduling/components/dummy_sqaure_card.dart';
-import 'package:g11_appointment_scheduling/components/service_square_card.dart';
 import 'package:g11_appointment_scheduling/constants/color_const.dart';
 import 'package:g11_appointment_scheduling/constants/const.dart';
 import 'package:g11_appointment_scheduling/constants/text_const.dart';
 import 'package:g11_appointment_scheduling/firebase_auth/user_auth_service.dart';
 import 'package:g11_appointment_scheduling/models/appointment_model.dart';
 import 'package:g11_appointment_scheduling/models/doctor_model.dart';
+import 'package:g11_appointment_scheduling/views/admin_dashboard_screen.dart';
 import 'package:g11_appointment_scheduling/views/all_service_screen.dart';
 import 'package:g11_appointment_scheduling/views/signin_screen.dart';
 
@@ -94,8 +93,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: kSubHeadingTextStyle,
               ),
               onTap: () {
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => Dashboard()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Dashboard()));
               },
             ),
             ListTile(
