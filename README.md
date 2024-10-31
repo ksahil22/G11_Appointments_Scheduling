@@ -16,3 +16,15 @@ The project is a healthcare and donation management application that integrates 
 
 ## ER Diagram of this application.
 ![image](https://github.com/user-attachments/assets/fc521c6e-6b0b-4b44-8048-b71b8c360843)
+
+Sprint 1 Completed Items:
+- Setup Flutter SDK in vscode and install all dependencies
+- Design database architecture and identify a cloud hosted service
+- Setup firebase Database for the project
+- Setup Github repo and github actions pipelines
+- Create an ER diagram
+- Design UI for Login and Signup
+- Design UI for Home page
+- Design UI for Doctor list and Upcoming appointments
+- Create the logout functionality
+- Design UI for Appointment booking screen
