@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:g11_appointment_scheduling/constants/color_const.dart';
 import 'package:g11_appointment_scheduling/constants/text_const.dart';
-import 'package:g11_appointment_scheduling/firebase_auth/user_auth_service.dart';
+import 'package:g11_appointment_scheduling/viewmodels/user_auth_service.dart';
 import 'package:g11_appointment_scheduling/views/home_screen.dart';
 import 'package:g11_appointment_scheduling/views/signup_screen.dart';
 
@@ -32,8 +32,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: MediaQuery.of(context).size.height / 60),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const HomeScreen()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomeScreen()));
                   },
                   child: Text(
                     "Sign In",
@@ -117,15 +119,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: double.infinity,
                     height: 60,
                     child: ElevatedButton(
-                      onPressed: () async{
+                      onPressed: () async {
                         setState(() {
                           _emailError = _emailController.text.isEmpty;
                         });
                         String email = _emailController.value.text;
-                          String password = _passwordController.value.text;
+                        String password = _passwordController.value.text;
                         if (email.isNotEmpty && password.isNotEmpty) {
-                            bool? loggedIn = await SignInBackend()
-                                .loginWithEmail(email, password, context);}
+                          bool? loggedIn = await SignInBackend()
+                              .loginWithEmail(email, password, context);
+                        }
                       },
                       style: ButtonStyle(
                         shape: WidgetStateProperty.all<RoundedRectangleBorder>(

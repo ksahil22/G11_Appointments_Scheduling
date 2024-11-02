@@ -13,7 +13,7 @@ class ServicesListScreen extends StatefulWidget {
 class _ServicesListScreenState extends State<ServicesListScreen> {
   @override
   Widget build(BuildContext context) {
-    // Dummy list of services (replace with actual model list if needed)
+    // Dummy list of services
     final List<Map<String, String>> services = [
       {
         "doctorName": "Dr. John Doe",
