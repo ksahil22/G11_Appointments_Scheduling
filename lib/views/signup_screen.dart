@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:g11_appointment_scheduling/constants/color_const.dart';
 import 'package:g11_appointment_scheduling/constants/text_const.dart';
-import 'package:g11_appointment_scheduling/firebase_auth/user_auth_service.dart';
-// import 'package:g11_appointment_scheduling/views/home_screen.dart';
+import 'package:g11_appointment_scheduling/viewmodels/user_auth_service.dart';
 import 'package:g11_appointment_scheduling/views/signin_screen.dart';
 
 class SignupPage extends StatefulWidget {
@@ -191,7 +190,7 @@ class _SignupPageState extends State<SignupPage> {
               _nameError = _firstNameController.text.isEmpty;
               _emailError = _emailController.text.isEmpty;
             });
-            
+
             if (!_nameError && !_emailError) {
               bool? success = await SignInBackend().registerWithEmail(
                   _emailController.text,
@@ -228,8 +227,8 @@ class _SignupPageState extends State<SignupPage> {
       alignment: Alignment.bottomLeft,
       child: GestureDetector(
         onTap: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const LoginScreen()));
         },
         child: Text.rich(
           TextSpan(children: [

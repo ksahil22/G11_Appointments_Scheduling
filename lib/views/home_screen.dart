@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:g11_appointment_scheduling/admin_views/add_new_doctor_screen_admin.dart';
 import 'package:g11_appointment_scheduling/components/dummy_appointment_card.dart';
 import 'package:g11_appointment_scheduling/components/dummy_sqaure_card.dart';
 import 'package:g11_appointment_scheduling/constants/color_const.dart';
 import 'package:g11_appointment_scheduling/constants/text_const.dart';
-import 'package:g11_appointment_scheduling/firebase_auth/user_auth_service.dart';
+import 'package:g11_appointment_scheduling/viewmodels/user_auth_service.dart';
 
 import 'package:g11_appointment_scheduling/views/admin_dashboard_screen.dart';
 import 'package:g11_appointment_scheduling/views/all_service_screen.dart';
@@ -18,44 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // List<DoctorModel> doctorsList = [];
-  // List<AppointmentModel> appointments = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  // Future<List<DoctorModel>> getServices() async {
-  //   final servicesSnapshot = await FirebaseFirestore.instance
-  //       .collection(Constants.fcDoctorNode)
-  //       .get();
-  //   int count = servicesSnapshot.docs.length;
-  //   servicesSnapshot.docs.forEach((service) {
-  //     if (doctorsList.length < count) {
-  //       doctorsList.add(DoctorModel.fromJson(service.data()));
-  //     }
-  //   });
-
-  //   return doctorsList;
-  // }
-
-  // Future<List<AppointmentModel>> getUpcomingAppointmentForUser() async {
-  //   try {
-  //     await FirebaseFirestore.instance
-  //         .collection(Constants.fcAppointments)
-  //         .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-  //         .where('apptStatus', isEqualTo: Constants.appointmentActive)
-  //         .get()
-  //         .then((querySnapshot) {
-  //       int count = querySnapshot.docs.length;
-  //       querySnapshot.docs.forEach((doc) {
-  //         if (appointments.length < count) {
-  //           appointments.add(AppointmentModel.fromJson(doc.data()));
-  //         }
-  //       });
-  //     });
-  //     return appointments;
-  //   } catch (e) {
-  //     return [];
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 25,
                   child: SvgPicture.asset('assets/images/logo.svg')),
               title: Text(
-                'Pulse Well',
+                'MediSchedule',
                 style: kMainTitleBoldTextStyle.copyWith(fontSize: 18),
               ),
               onTap: () {
@@ -103,10 +67,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: kSubHeadingTextStyle,
               ),
               onTap: () {
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) => AddNewDoctorScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddNewDoctorScreen()));
               },
             ),
             ListTile(
@@ -118,10 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 'Donations',
                 style: kSubHeadingTextStyle,
               ),
-              onTap: () {
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => DonationScreen()));
-              },
+              onTap: () {},
             ),
             ListTile(
               leading: Icon(
@@ -132,12 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 'Add Donations',
                 style: kSubHeadingTextStyle,
               ),
-              onTap: () {
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) => NewDonationCampaignScreen()));
-              },
+              onTap: () {},
             ),
             ListTile(
               leading: Icon(
@@ -315,31 +271,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         DummySquareCard(),
                       ],
                     ),
-                    // FutureBuilder(
-                    //     future: getServices(),
-                    //     builder: (context, snapshot) {
-                    //       if (snapshot.connectionState ==
-                    //           ConnectionState.waiting) {
-                    //         return Center(child: CircularProgressIndicator());
-                    //       } else if (snapshot.hasError) {
-                    //         return Center(
-                    //             child: Text('Error: ${snapshot.error}'));
-                    //       } else {
-                    //         return Container(
-                    //           height: MediaQuery.of(context).size.height / 6.5,
-                    //           child: ListView.builder(
-                    //             shrinkWrap: true,
-                    //             scrollDirection: Axis.horizontal,
-                    //             itemCount: doctorsList.length,
-                    //             itemBuilder: (BuildContext context, int index) {
-                    //               return ServiceSquareCard(
-                    //                 model: doctorsList[index],
-                    //               );
-                    //             },
-                    //           ),
-                    //         );
-                    //       }
-                    //     }),
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 60,
                     ),
@@ -365,30 +296,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ],
                     )
-                    // FutureBuilder(
-                    //     future: getUpcomingAppointmentForUser(),
-                    //     builder: (context, snapshot) {
-                    //       if (snapshot.connectionState ==
-                    //           ConnectionState.waiting) {
-                    //         return Center(child: CircularProgressIndicator());
-                    //       } else if (snapshot.hasError) {
-                    //         return Center(
-                    //             child: Text('Error: ${snapshot.error}'));
-                    //       } else {
-                    //         return ListView.builder(
-                    //           shrinkWrap: true,
-                    //           physics: const NeverScrollableScrollPhysics(),
-                    //           itemCount: appointments.length,
-                    //           itemBuilder: (BuildContext context, int index) {
-                    //             return AppointmentCard(
-                    //                 title: appointments[index].username,
-                    //                 day: appointments[index].apptDate,
-                    //                 time: appointments[index].apptTime,
-                    //                 petname: appointments[index].username);
-                    //           },
-                    //         );
-                    //       }
-                    //     }),
                   ]),
             ),
           ]),
