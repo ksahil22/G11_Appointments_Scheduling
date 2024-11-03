@@ -1,11 +1,11 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:pgc/constants/const.dart';
-import 'package:pgc/constants/helper_class.dart';
-import 'package:pgc/model/appointment_model.dart';
-import 'package:pgc/model/doctor_model.dart';
-import 'package:pgc/model/user_model.dart';
+import 'package:g11_appointment_scheduling/constants/const.dart';
+import 'package:g11_appointment_scheduling/constants/helper_class.dart';
+import 'package:g11_appointment_scheduling/models/appointment_model.dart';
+import 'package:g11_appointment_scheduling/models/doctor_model.dart';
+import 'package:g11_appointment_scheduling/models/user_model.dart';
 
 class AppointmentViewModel {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

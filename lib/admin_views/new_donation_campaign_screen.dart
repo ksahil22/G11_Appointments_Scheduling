@@ -279,7 +279,6 @@ class _NewDonationCampaignScreenState extends State<NewDonationCampaignScreen> {
                       shape: ContinuousRectangleBorder(
                         borderRadius: BorderRadius.circular(40),
                       ),
-                      // fixedSize: Size.fromHeight(58), // Your desired height
                     ),
                     child: Text(
                       'Add Prescription Images',

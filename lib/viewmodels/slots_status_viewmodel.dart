@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:pgc/constants/const.dart';
-import 'package:pgc/model/one_hour_model.dart';
+import 'package:g11_appointment_scheduling/constants/const.dart';
+import 'package:g11_appointment_scheduling/models/one_hour_model.dart';
 
 class SlotsStatusViewModel {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
