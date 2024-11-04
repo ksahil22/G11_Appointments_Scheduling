@@ -19,7 +19,7 @@ jobs:  # Telling what jobs we need to happen
       uses: actions/setup-java@v4
       with:
         distribution: 'graalvm'
-        java-version: '22'
+        java-version: '21'
     - name: Set Up Flutter
       uses: subosito/flutter-action@v2
       with:
@@ -55,7 +55,7 @@ jobs:  # Telling what jobs we need to happen
       uses: actions/setup-java@v4
       with:
         distribution: 'graalvm'
-        java-version: '22'
+        java-version: '21'
     - name: Set Up Flutter
       uses: subosito/flutter-action@v2
       with:
