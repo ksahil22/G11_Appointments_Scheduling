@@ -1,11 +1,10 @@
 import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:pgc/constants/const.dart';
+import 'package:g11_appointment_scheduling/constants/const.dart';
 
 class AdminServiceViewModel {
   Future<List<Uint8List>> pickMultipleImagesWeb(BuildContext context) async {

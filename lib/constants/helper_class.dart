@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:pgc/model/hour_slot_model.dart';
-import 'package:pgc/model/one_hour_model.dart';
+import 'package:g11_appointment_scheduling/models/hour_slot_model.dart';
+import 'package:g11_appointment_scheduling/models/one_hour_model.dart';
 
 class HelperClass {
   static String generateRandomString() {
