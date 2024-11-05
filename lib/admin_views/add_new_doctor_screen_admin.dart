@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:g11_appointment_scheduling/constants/const.dart';
 import 'package:g11_appointment_scheduling/constants/helper_class.dart';
 import 'package:g11_appointment_scheduling/constants/text_const.dart';
@@ -33,6 +34,13 @@ class _AddNewDoctorScreenState extends State<AddNewDoctorScreen> {
   final List<Uint8List> _imageFilesWeb = [];
   int _appointmentInHoursCount = 0;
   bool _isLoading = false;
+  // Initialize your list of image paths as asset references
+  List<String> assetImagePaths = [
+    'assets/images/doc.png',
+    'assets/images/doc.png',
+    'assets/images/doc.png',
+    // Add more asset image paths as needed
+  ];
 
   @override
   void dispose() {
@@ -66,11 +74,19 @@ class _AddNewDoctorScreenState extends State<AddNewDoctorScreen> {
 
       // Upload images to Firebase Storage
       if (kIsWeb) {
+        // Convert assets to Uint8List for web upload
+        List<Uint8List> assetImageFilesWeb = [];
+        for (var assetPath in assetImagePaths) {
+          final ByteData data = await rootBundle.load(assetPath);
+          assetImageFilesWeb.add(data.buffer.asUint8List());
+        }
+
         _imageUrls = await AdminServiceViewModel()
-            .uploadFilesWeb(_imageFilesWeb, _doctorName);
+            .uploadFilesWeb(assetImageFilesWeb, _doctorName);
       } else {
+        // Use asset image paths directly for mobile upload
         _imageUrls = await AdminServiceViewModel()
-            .uploadImagesMobile(imagePaths, _doctorName);
+            .uploadImagesMobile(assetImagePaths.cast<Uint8List>(), _doctorName);
       }
 
       DoctorModel doctorModel = DoctorModel(
@@ -283,22 +299,21 @@ class _AddNewDoctorScreenState extends State<AddNewDoctorScreen> {
                 ),
                 SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (kIsWeb) {
-                      AdminServiceViewModel()
-                          .pickMultipleImagesWeb(context)
-                          .then((value) {
-                        setState(() {
-                          _imageFilesWeb.addAll(value);
-                        });
+                      // For web, load images as Uint8List and add to _imageFilesWeb
+                      List<Uint8List> assetImages = [];
+                      for (var assetPath in assetImagePaths) {
+                        final ByteData data = await rootBundle.load(assetPath);
+                        assetImages.add(data.buffer.asUint8List());
+                      }
+                      setState(() {
+                        _imageFilesWeb.addAll(assetImages);
                       });
                     } else {
-                      AdminServiceViewModel()
-                          .pickMultipleImagesMobile(context)
-                          .then((value) {
-                        setState(() {
-                          imagePaths.addAll(value.map((e) => e.path).toList());
-                        });
+                      // For mobile, directly add asset paths to imagePaths
+                      setState(() {
+                        imagePaths.addAll(assetImagePaths);
                       });
                     }
                   },
