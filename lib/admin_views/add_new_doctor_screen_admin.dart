@@ -1,5 +1,14 @@
+import 'dart:typed_data';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:g11_appointment_scheduling/constants/const.dart';
+import 'package:g11_appointment_scheduling/constants/helper_class.dart';
 import 'package:g11_appointment_scheduling/constants/text_const.dart';
+import 'package:g11_appointment_scheduling/models/doctor_model.dart';
+import 'package:g11_appointment_scheduling/viewmodels/admin_service_upload_veiwmodel.dart';
+import 'package:g11_appointment_scheduling/views/home_screen.dart';
 
 class AddNewDoctorScreen extends StatefulWidget {
   const AddNewDoctorScreen({super.key});
@@ -10,19 +19,28 @@ class AddNewDoctorScreen extends StatefulWidget {
 
 class _AddNewDoctorScreenState extends State<AddNewDoctorScreen> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _doctorNameController = TextEditingController();
-  final TextEditingController _aboutController = TextEditingController();
-  final TextEditingController _doctorSpecialityController =
+  TextEditingController _doctorNameController = TextEditingController();
+  TextEditingController _aboutController = TextEditingController();
+  TextEditingController _doctorSpecialityController = TextEditingController();
+  TextEditingController _doctorExperienceController = TextEditingController();
+  TextEditingController _doctorFeesController = TextEditingController();
+  TextEditingController _currentHourController = TextEditingController();
+  TextEditingController _addressController = TextEditingController();
+  TextEditingController _appointmentInHoursCountController =
       TextEditingController();
-  final TextEditingController _doctorExperienceController =
-      TextEditingController();
-  final TextEditingController _doctorFeesController = TextEditingController();
-  final TextEditingController _currentHourController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _appointmentInHoursCountController =
-      TextEditingController();
-  final List<String> _visitingHours = [];
+  List<String> _visitingHours = [];
   final List<String> imagePaths = [];
+  List<String> _imageUrls = [];
+  final List<Uint8List> _imageFilesWeb = [];
+  int _appointmentInHoursCount = 0;
+  bool _isLoading = false;
+  // Initialize your list of image paths as asset references
+  List<String> assetImagePaths = [
+    'assets/images/doc.png',
+    'assets/images/doc.png',
+    'assets/images/doc.png',
+    // Add more asset image paths as needed
+  ];
 
   @override
   void dispose() {
@@ -38,6 +56,112 @@ class _AddNewDoctorScreenState extends State<AddNewDoctorScreen> {
     super.dispose();
   }
 
+  Future<void> _submitForm() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+      });
+      _formKey.currentState!.save();
+
+      // Retrieve values from controllers
+      String _doctorName = _doctorNameController.text;
+      String about = _aboutController.text;
+      String _doctorSpeciality = _doctorSpecialityController.text;
+      int _doctorExperience = int.parse(_doctorExperienceController.text);
+      int _doctorFees = int.parse(_doctorFeesController.text);
+      int _currentHour = int.parse(_currentHourController.text);
+      String _address = _addressController.text;
+
+      // Upload images to Firebase Storage
+      if (kIsWeb) {
+        // Convert assets to Uint8List for web upload
+        List<Uint8List> assetImageFilesWeb = [];
+        for (var assetPath in assetImagePaths) {
+          final ByteData data = await rootBundle.load(assetPath);
+          assetImageFilesWeb.add(data.buffer.asUint8List());
+        }
+
+        _imageUrls = await AdminServiceViewModel()
+            .uploadFilesWeb(assetImageFilesWeb, _doctorName);
+      } else {
+        // Use asset image paths directly for mobile upload
+        _imageUrls = await AdminServiceViewModel()
+            .uploadImagesMobile(assetImagePaths.cast<Uint8List>(), _doctorName);
+      }
+
+      DoctorModel doctorModel = DoctorModel(
+        doctorName: _doctorName,
+        about: about,
+        doctorFees: _doctorFees,
+        doctorPhotos: _imageUrls,
+        doctorId: HelperClass.generateRandomString(),
+        doctorExperience: _doctorExperience.toString(),
+        doctorSpeciality: _doctorSpeciality,
+        hours: _visitingHours,
+        appointmentsInHourCount:
+            int.parse(_appointmentInHoursCountController.value.text),
+        address: _address,
+      );
+
+      // Check if imageUrls list is empty
+      if (_imageUrls.isEmpty) {
+        await Future.delayed(Duration(seconds: 5));
+        if (_imageUrls.isEmpty) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('No Images'),
+                content: Text('Failed to upload images. No images selected.'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      }
+
+      // Upload service to Firestore
+      await FirebaseFirestore.instance
+          .collection(Constants.fcDoctorNode)
+          .doc(doctorModel.doctorId)
+          .set(doctorModel.toJson());
+
+      // Show success message or navigate to next screen
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Icon(
+              Icons.check_circle,
+              color: Colors.green,
+              size: 48,
+            ),
+            content: Text('Doctors detail upload successful'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,14 +171,14 @@ class _AddNewDoctorScreenState extends State<AddNewDoctorScreen> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16),
           child: Form(
             key: _formKey,
             child: Column(
               children: [
                 TextFormField(
                   controller: _doctorNameController,
-                  decoration: const InputDecoration(labelText: 'Doctor Name'),
+                  decoration: InputDecoration(labelText: 'Doctor Name'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter Doctors name';
@@ -62,11 +186,11 @@ class _AddNewDoctorScreenState extends State<AddNewDoctorScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
                 TextFormField(
                   controller: _aboutController,
-                  decoration: const InputDecoration(
-                      labelText: 'Doctor\'s complete detail:'),
+                  decoration:
+                      InputDecoration(labelText: 'Doctor\s complete detail:'),
                   maxLines: null,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -75,10 +199,10 @@ class _AddNewDoctorScreenState extends State<AddNewDoctorScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
                 TextFormField(
                   controller: _doctorFeesController,
-                  decoration: const InputDecoration(labelText: 'Doctor Fees'),
+                  decoration: InputDecoration(labelText: 'Doctor Fees'),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -90,11 +214,10 @@ class _AddNewDoctorScreenState extends State<AddNewDoctorScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
                 TextFormField(
                   controller: _doctorSpecialityController,
-                  decoration:
-                      const InputDecoration(labelText: 'Doctor speciality'),
+                  decoration: InputDecoration(labelText: 'Doctor speciality'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter Doctor speciality';
@@ -102,10 +225,10 @@ class _AddNewDoctorScreenState extends State<AddNewDoctorScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
                 TextFormField(
                   controller: _addressController,
-                  decoration: const InputDecoration(labelText: 'Address'),
+                  decoration: InputDecoration(labelText: 'Address'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter Doctor address';
@@ -113,11 +236,10 @@ class _AddNewDoctorScreenState extends State<AddNewDoctorScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
                 TextFormField(
                   controller: _appointmentInHoursCountController,
-                  decoration:
-                      const InputDecoration(labelText: 'Appointment Count'),
+                  decoration: InputDecoration(labelText: 'Appointment Count'),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -126,11 +248,10 @@ class _AddNewDoctorScreenState extends State<AddNewDoctorScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
                 TextFormField(
                   controller: _doctorExperienceController,
-                  decoration:
-                      const InputDecoration(labelText: 'Year of experience'),
+                  decoration: InputDecoration(labelText: 'Year of experience'),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -139,8 +260,8 @@ class _AddNewDoctorScreenState extends State<AddNewDoctorScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
-                const Text("Added hours"),
+                SizedBox(height: 16),
+                Text("Added hours"),
                 SizedBox(
                   height: 50,
                   child: ListView.builder(
@@ -152,11 +273,10 @@ class _AddNewDoctorScreenState extends State<AddNewDoctorScreen> {
                     },
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
                 TextFormField(
                   controller: _currentHourController,
-                  decoration:
-                      const InputDecoration(labelText: 'Visiting hours'),
+                  decoration: InputDecoration(labelText: 'Visiting hours'),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -168,24 +288,42 @@ class _AddNewDoctorScreenState extends State<AddNewDoctorScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
                       _visitingHours.add(_currentHourController.text);
                     });
                   },
-                  child: const Text('Add Hour'),
+                  child: Text('Add Hour'),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Add Photos'),
+                  onPressed: () async {
+                    if (kIsWeb) {
+                      // For web, load images as Uint8List and add to _imageFilesWeb
+                      List<Uint8List> assetImages = [];
+                      for (var assetPath in assetImagePaths) {
+                        final ByteData data = await rootBundle.load(assetPath);
+                        assetImages.add(data.buffer.asUint8List());
+                      }
+                      setState(() {
+                        _imageFilesWeb.addAll(assetImages);
+                      });
+                    } else {
+                      // For mobile, directly add asset paths to imagePaths
+                      setState(() {
+                        imagePaths.addAll(assetImagePaths);
+                      });
+                    }
+                  },
+                  child: Text('Add Photos'),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Submit'),
+                  onPressed: _isLoading ? null : _submitForm,
+                  child:
+                      _isLoading ? CircularProgressIndicator() : Text('Submit'),
                 ),
               ],
             ),

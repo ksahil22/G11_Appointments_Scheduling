@@ -1,45 +1,38 @@
 import 'dart:developer';
-import 'dart:io';
 import 'dart:typed_data';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:pgc/constants/const.dart';
+import 'package:flutter/services.dart';
+import 'package:g11_appointment_scheduling/constants/const.dart';
 
 class AdminServiceViewModel {
-  Future<List<Uint8List>> pickMultipleImagesWeb(BuildContext context) async {
-    List<Uint8List> selectedImages = [];
+  // For loading multiple images from assets (Web)
+  Future<List<Uint8List>> loadMultipleImagesWeb(List<String> assetPaths) async {
+    List<Uint8List> loadedImages = [];
 
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.image,
-        allowMultiple: true,
-      );
-
-      if (result != null) {
-        selectedImages.addAll(result.files.map((file) => file.bytes!));
+      for (String path in assetPaths) {
+        final Uint8List imageData = await rootBundle
+            .load(path)
+            .then((data) => data.buffer.asUint8List());
+        loadedImages.add(imageData);
       }
-      log("image added as files in add product screen length is ${selectedImages.length}");
+      log("Images loaded from assets for web. Count: ${loadedImages.length}");
     } catch (e) {
-      print('Error picking multiple images: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Error picking multiple images'),
-        ),
-      );
+      print('Error loading multiple images from assets: $e');
     }
 
-    return selectedImages;
+    return loadedImages;
   }
 
+  // For uploading multiple files to Firebase Storage (Web)
   Future<List<String>> uploadFilesWeb(
-      List<Uint8List> _imageFilesWeb, String serviceName) async {
+      List<Uint8List> imageFilesWeb, String serviceName) async {
     List<String> downloadUrls = [];
 
     try {
-      for (int i = 0; i < _imageFilesWeb.length; i++) {
-        Uint8List file = _imageFilesWeb[i];
+      for (int i = 0; i < imageFilesWeb.length; i++) {
+        Uint8List file = imageFilesWeb[i];
         String fileName = '${i + 1}.png';
         String storageRef =
             '${Constants.fcDoctorPhotos}/$serviceName/$fileName';
@@ -51,99 +44,79 @@ class AdminServiceViewModel {
 
         // Get the download URL
         final String downloadURL = await ref.getDownloadURL();
-
-        // Store the download URL in the imageUrls list
         downloadUrls.add(downloadURL);
       }
     } catch (e) {
-      // Handle any errors
       print('Failed to upload files: $e');
     }
 
     return downloadUrls;
   }
 
-  Future<List<File>> pickMultipleImagesMobile(BuildContext context) async {
-    List<File> selectedImages = [];
+  // For loading multiple images from assets (Mobile)
+  Future<List<Uint8List>> loadMultipleImagesMobile(
+      List<String> assetPaths) async {
+    List<Uint8List> loadedImages = [];
 
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.image,
-        allowMultiple: true,
-      );
-
-      if (result != null) {
-        List<File> files = result.paths.map((path) => File(path!)).toList();
-        selectedImages.addAll(files);
+      for (String path in assetPaths) {
+        final Uint8List imageData = await rootBundle
+            .load(path)
+            .then((data) => data.buffer.asUint8List());
+        loadedImages.add(imageData);
       }
-      log("image added as files in add product screen length is ${selectedImages.length}");
+      log("Images loaded from assets for mobile. Count: ${loadedImages.length}");
     } catch (e) {
-      print('Error picking multiple images: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Error picking multiple images'),
-        ),
-      );
+      print('Error loading multiple images from assets: $e');
     }
 
-    return selectedImages;
+    return loadedImages;
   }
 
   Future<List<String>> uploadImagesMobile(
-      List<String> imagePaths, String serviceName) async {
+      List<Uint8List> imageData, String serviceName) async {
     List<String> imageUrls = [];
 
-    // Upload images to Firebase Storage
-    for (int i = 0; i < imagePaths.length; i++) {
-      File imageFile = File(imagePaths[i]);
+    for (int i = 0; i < imageData.length; i++) {
+      Uint8List file = imageData[i];
       String fileName = '${i + 1}.png';
       String storageRef = '${Constants.fcDoctorPhotos}/$serviceName/$fileName';
 
-      // Upload image to Firebase Storage
-      TaskSnapshot snapshot = await FirebaseStorage.instance
-          .ref()
-          .child(storageRef)
-          .putFile(imageFile);
+      TaskSnapshot snapshot =
+          await FirebaseStorage.instance.ref(storageRef).putData(file);
 
-      // Get the download URL of the uploaded image
       String downloadUrl = await snapshot.ref.getDownloadURL();
-
-      // Add the download URL to the imageUrls list
       imageUrls.add(downloadUrl);
     }
 
     return imageUrls;
   }
 
+  // For uploading images with custom reference paths (Web)
   Future<List<String>> uploadFilesWebWithRef(
-      List<Uint8List> _imageFilesWeb, String storageRef) async {
+      List<Uint8List> imageFilesWeb, String storageRef) async {
     List<String> downloadUrls = [];
 
     try {
-      for (int i = 0; i < _imageFilesWeb.length; i++) {
-        Uint8List file = _imageFilesWeb[i];
+      for (int i = 0; i < imageFilesWeb.length; i++) {
+        Uint8List file = imageFilesWeb[i];
         String fileName = '${i + 1}.png';
 
         Reference ref = FirebaseStorage.instance.ref('$storageRef/$fileName');
         UploadTask uploadTask = ref.putData(file);
 
-        // Wait until the file is uploaded
         await uploadTask;
-
-        // Get the download URL
         final String downloadURL = await ref.getDownloadURL();
-
-        // Store the download URL in the imageUrls list
         downloadUrls.add(downloadURL);
       }
     } catch (e) {
-      // Handle any errors
       print('Failed to upload files: $e');
     }
 
     return downloadUrls;
   }
 
+  // For uploading a single image file (Web)
   Future<String> uploadSingleFileWeb(Uint8List file, String storageRef) async {
     String downloadUrl = '';
 
@@ -151,13 +124,9 @@ class AdminServiceViewModel {
       Reference ref = FirebaseStorage.instance.ref(storageRef);
       UploadTask uploadTask = ref.putData(file);
 
-      // Wait until the file is uploaded
       await uploadTask;
-
-      // Get the download URL
       downloadUrl = await ref.getDownloadURL();
     } catch (e) {
-      // Handle any errors
       print('Failed to upload file: $e');
     }
 
@@ -165,51 +134,35 @@ class AdminServiceViewModel {
   }
 
   Future<List<String>> uploadImagesMobileWithRef(
-      List<String> imagePaths, String storageRef) async {
+      List<Uint8List> imageData, String storageRef) async {
     List<String> imageUrls = [];
 
-    // Upload images to Firebase Storage
-    for (int i = 0; i < imagePaths.length; i++) {
-      File imageFile = File(imagePaths[i]);
+    for (int i = 0; i < imageData.length; i++) {
+      Uint8List file = imageData[i];
       String fileName = '${i + 1}.png';
 
-      // Upload image to Firebase Storage
       TaskSnapshot snapshot = await FirebaseStorage.instance
-          .ref()
-          .child(storageRef)
-          .child(fileName)
-          .putFile(imageFile);
+          .ref('$storageRef/$fileName')
+          .putData(file);
 
-      // Get the download URL of the uploaded image
       String downloadUrl = await snapshot.ref.getDownloadURL();
-
-      // Add the download URL to the imageUrls list
       imageUrls.add(downloadUrl);
     }
 
     return imageUrls;
   }
 
-  Future<Uint8List> pickSingleImageWeb(BuildContext context) async {
+  // For loading a single image from assets (Web)
+  Future<Uint8List> loadSingleImageWeb(String assetPath) async {
     Uint8List selectedImage = Uint8List(0);
 
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.image,
-        allowMultiple: false,
-      );
-
-      if (result != null) {
-        selectedImage = result.files.first.bytes!;
-      }
-      log("image added insingle web pick is ${selectedImage.length}");
+      selectedImage = await rootBundle
+          .load(assetPath)
+          .then((data) => data.buffer.asUint8List());
+      log("Single image loaded from assets for web. Size: ${selectedImage.length}");
     } catch (e) {
-      print('Error picking multiple images: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Error picking single web images'),
-        ),
-      );
+      print('Error loading single image from assets: $e');
     }
 
     return selectedImage;
