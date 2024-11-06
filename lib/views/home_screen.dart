@@ -151,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   width: MediaQuery.of(context).size.width / 18,
                                 ),
                                 Text(
-                                  "Pulse Well",
+                                  "Medi Schedule",
                                   style: kSmallParaTextStyle.copyWith(
                                       color: Colors.white),
                                 ),
