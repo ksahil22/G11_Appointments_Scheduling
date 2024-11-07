@@ -190,7 +190,7 @@ class _AddNewDoctorScreenState extends State<AddNewDoctorScreen> {
                 TextFormField(
                   controller: _aboutController,
                   decoration:
-                      InputDecoration(labelText: 'Doctor\s complete detail:'),
+                      InputDecoration(labelText: 'Doctor\'s complete detail'),
                   maxLines: null,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
