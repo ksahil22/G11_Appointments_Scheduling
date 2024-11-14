@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:g11_appointment_scheduling/admin_views/add_new_doctor_screen_admin.dart';
+import 'package:g11_appointment_scheduling/admin_views/donation_screen.dart';
+import 'package:g11_appointment_scheduling/admin_views/new_donation_campaign_screen.dart';
 import 'package:g11_appointment_scheduling/components/dummy_appointment_card.dart';
 import 'package:g11_appointment_scheduling/components/dummy_sqaure_card.dart';
 import 'package:g11_appointment_scheduling/constants/color_const.dart';
@@ -82,7 +84,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 'Donations',
                 style: kSubHeadingTextStyle,
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => DonationScreen()));
+              },
             ),
             ListTile(
               leading: Icon(
@@ -93,7 +98,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 'Add Donations',
                 style: kSubHeadingTextStyle,
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NewDonationCampaignScreen()));
+              },
             ),
             ListTile(
               leading: Icon(
