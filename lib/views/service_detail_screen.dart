@@ -129,13 +129,6 @@ class _ServicesDetailScreenState extends State<ServicesDetailScreen> {
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
               ),
-              // Text("Service Description", style: kSubHeadingTextStyle),
-              // Text(2
-              //   widget.serviceModel.serviceDescription,
-              //   maxLines: 3,
-              //   overflow: TextOverflow.ellipsis,
-              //   style: kSmallParaTextStyle,
-              // ),
               const SizedBox(height: 16.0),
               FutureBuilder(
                   future: getDates(selectedDate),
@@ -402,17 +395,7 @@ class _ServicesDetailScreenState extends State<ServicesDetailScreen> {
                                       showDialog(
                                           context: context,
                                           builder: (context) {
-                                            return SingleInfoAlertBox(
-                                              text: "Please login to book",
-                                              onOkPressed: () {
-                                                Navigator.pop(context);
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            LoginScreen()));
-                                              },
-                                            );
+                                            return Container();
                                           });
                                     }
                                   } else {
