@@ -8,7 +8,6 @@ import 'package:g11_appointment_scheduling/components/dummy_sqaure_card.dart';
 import 'package:g11_appointment_scheduling/constants/color_const.dart';
 import 'package:g11_appointment_scheduling/constants/text_const.dart';
 import 'package:g11_appointment_scheduling/viewmodels/user_auth_service.dart';
-
 import 'package:g11_appointment_scheduling/views/admin_dashboard_screen.dart';
 import 'package:g11_appointment_scheduling/views/all_service_screen.dart';
 import 'package:g11_appointment_scheduling/views/signin_screen.dart';
