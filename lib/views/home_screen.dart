@@ -1,10 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:g11_appointment_scheduling/admin_views/add_new_doctor_screen_admin.dart';
 import 'package:g11_appointment_scheduling/components/dummy_appointment_card.dart';
 import 'package:g11_appointment_scheduling/components/dummy_sqaure_card.dart';
+import 'package:g11_appointment_scheduling/components/service_square_card.dart';
 import 'package:g11_appointment_scheduling/constants/color_const.dart';
+import 'package:g11_appointment_scheduling/constants/const.dart';
 import 'package:g11_appointment_scheduling/constants/text_const.dart';
+import 'package:g11_appointment_scheduling/models/doctor_model.dart';
 import 'package:g11_appointment_scheduling/viewmodels/user_auth_service.dart';
 
 import 'package:g11_appointment_scheduling/views/admin_dashboard_screen.dart';
@@ -19,14 +23,28 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<DoctorModel> doctorsList = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  Future<List<DoctorModel>> getServices() async {
+    final servicesSnapshot = await FirebaseFirestore.instance
+        .collection(Constants.fcDoctorNode)
+        .get();
+    int count = servicesSnapshot.docs.length;
+    servicesSnapshot.docs.forEach((service) {
+      if (doctorsList.length < count) {
+        doctorsList.add(DoctorModel.fromJson(service.data()));
+      }
+    });
+
+    return doctorsList;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Builder(
       builder: (context) => Scaffold(
-        key: _scaffoldKey, // Set the key for the Scaffold
-
+        key: _scaffoldKey,
         drawer: NavigationDrawer(
           tilePadding: EdgeInsets.all(MediaQuery.of(context).size.width / 10),
           children: [
@@ -265,12 +283,31 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 80,
                     ),
-                    Row(
-                      children: [
-                        DummySquareCard(),
-                        DummySquareCard(),
-                      ],
-                    ),
+                    FutureBuilder(
+                        future: getServices(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return Center(
+                                child: Text('Error: ${snapshot.error}'));
+                          } else {
+                            return Container(
+                              height: MediaQuery.of(context).size.height / 6.5,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: doctorsList.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return ServiceSquareCard(
+                                    model: doctorsList[index],
+                                  );
+                                },
+                              ),
+                            );
+                          }
+                        }),
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 60,
                     ),

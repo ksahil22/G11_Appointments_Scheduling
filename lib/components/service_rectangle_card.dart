@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:g11_appointment_scheduling/constants/color_const.dart';
 import 'package:g11_appointment_scheduling/constants/text_const.dart';
+import 'package:g11_appointment_scheduling/models/doctor_model.dart';
 import 'package:g11_appointment_scheduling/views/service_detail_screen.dart';
 
 class ServiceCard extends StatelessWidget {
+  final DoctorModel model;
   final String image;
   final String title;
   final String description;
 
   const ServiceCard({
     Key? key,
+    required this.model,
     required this.image,
     required this.title,
     required this.description,
@@ -22,7 +25,8 @@ class ServiceCard extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const ServicesDetailScreen()));
+                builder: (context) => ServicesDetailScreen(
+                    serviceModel: model, serviceId: model.doctorName)));
       },
       child: Card(
         shape: ContinuousRectangleBorder(
@@ -35,7 +39,7 @@ class ServiceCard extends StatelessWidget {
         child: Container(
           color: Colors.white,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 13),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 13),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -46,12 +50,14 @@ class ServiceCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     image: DecorationImage(
-                      image: AssetImage(image),
+                      image: AssetImage('assets/images/doc.png'),
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
-                const SizedBox(width: 10),
+                SizedBox(
+                  width: 10,
+                ),
                 // Column of multiple texts
                 Expanded(
                   child: Column(
@@ -61,35 +67,37 @@ class ServiceCard extends StatelessWidget {
                       Text(
                         title,
                         style: kSmallParaTextStyle.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                            fontWeight: FontWeight.bold),
                       ),
-                      const SizedBox(height: 5),
+                      SizedBox(
+                        height: 5,
+                      ),
                       Text(
                         description,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: kSmallParaTextStyle.copyWith(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
-                          height: 1.1,
-                        ),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                            height: 1.1),
                       ),
-                      const SizedBox(height: 5),
+                      SizedBox(
+                        height: 5,
+                      ),
                       Row(
                         children: [
                           Text(
                             "View detail",
                             style: kSmallParaTextStyle.copyWith(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                            ),
+                                fontWeight: FontWeight.bold, fontSize: 12),
                           ),
-                          const SizedBox(width: 2),
-                          const Icon(
+                          SizedBox(
+                            width: 2,
+                          ),
+                          Icon(
                             Icons.arrow_forward_rounded,
                             size: 12,
-                          ),
+                          )
                         ],
                       ),
                     ],
