@@ -13,7 +13,7 @@ class ServicesListScreen extends StatefulWidget {
 class _ServicesListScreenState extends State<ServicesListScreen> {
   @override
   Widget build(BuildContext context) {
-    // Dummy list of services
+    // Dummy list of docotr services
     final List<Map<String, String>> services = [
       {
         "doctorName": "Dr. John Doe",
