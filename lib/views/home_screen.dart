@@ -1,15 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:g11_appointment_scheduling/admin_views/add_new_doctor_screen_admin.dart';
 import 'package:g11_appointment_scheduling/admin_views/donation_screen.dart';
 import 'package:g11_appointment_scheduling/admin_views/new_donation_campaign_screen.dart';
+import 'package:g11_appointment_scheduling/components/appointment_rectangle_card.dart';
 import 'package:g11_appointment_scheduling/components/dummy_appointment_card.dart';
 import 'package:g11_appointment_scheduling/components/dummy_sqaure_card.dart';
 import 'package:g11_appointment_scheduling/components/service_square_card.dart';
 import 'package:g11_appointment_scheduling/constants/color_const.dart';
 import 'package:g11_appointment_scheduling/constants/const.dart';
 import 'package:g11_appointment_scheduling/constants/text_const.dart';
+import 'package:g11_appointment_scheduling/models/appointment_model.dart';
 import 'package:g11_appointment_scheduling/models/doctor_model.dart';
 import 'package:g11_appointment_scheduling/viewmodels/user_auth_service.dart';
 import 'package:g11_appointment_scheduling/views/admin_dashboard_screen.dart';
@@ -25,6 +28,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<DoctorModel> doctorsList = [];
+  List<AppointmentModel> appointments = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<List<DoctorModel>> getServices() async {
@@ -39,6 +43,27 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     return doctorsList;
+  }
+
+  Future<List<AppointmentModel>> getUpcomingAppointmentForUser() async {
+    try {
+      await FirebaseFirestore.instance
+          .collection(Constants.fcAppointments)
+          .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .where('apptStatus', isEqualTo: Constants.appointmentActive)
+          .get()
+          .then((querySnapshot) {
+        int count = querySnapshot.docs.length;
+        querySnapshot.docs.forEach((doc) {
+          if (appointments.length < count) {
+            appointments.add(AppointmentModel.fromJson(doc.data()));
+          }
+        });
+      });
+      return appointments;
+    } catch (e) {
+      return [];
+    }
   }
 
   @override
@@ -328,20 +353,30 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 60,
                     ),
-                    Column(
-                      children: [
-                        DummyAppointmentCard(
-                          title: "title",
-                          day: "day",
-                          time: "time",
-                        ),
-                        DummyAppointmentCard(
-                          title: "title",
-                          day: "day",
-                          time: "time",
-                        ),
-                      ],
-                    )
+                    FutureBuilder(
+                        future: getUpcomingAppointmentForUser(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return Center(
+                                child: Text('Error: ${snapshot.error}'));
+                          } else {
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: appointments.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return AppointmentCard(
+                                    title: appointments[index].username,
+                                    day: appointments[index].apptDate,
+                                    time: appointments[index].apptTime,
+                                    petname: appointments[index].username);
+                              },
+                            );
+                          }
+                        }),
                   ]),
             ),
           ]),

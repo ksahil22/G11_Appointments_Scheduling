@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:pgc/constants/const.dart';
-import 'package:pgc/constants/helper_class.dart';
+import 'package:g11_appointment_scheduling/constants/const.dart';
+import 'package:g11_appointment_scheduling/constants/helper_class.dart';
 
 class AnalyticsViewModel {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;

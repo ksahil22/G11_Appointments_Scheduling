@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:g11_appointment_scheduling/components/single_info_alert_box.dart';
 import 'package:g11_appointment_scheduling/constants/color_const.dart';
 import 'package:g11_appointment_scheduling/constants/helper_class.dart';
 import 'package:g11_appointment_scheduling/constants/text_const.dart';
