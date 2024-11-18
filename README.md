@@ -12,6 +12,17 @@ The project is a healthcare and donation management application that integrates 
 3. VisualStudio IDE is used to write the application.
 
 
+## Pre-commit Git-hooks for unit-testing
+We have initialized git hooks which are basically scripts that run automatically each time a certain event is triggerred. In our case, we have used it for a commit. Every time we commit a change, this script will be executed which has unit-tests execution commands and based on those results, the commit will be accetped or rejected.
+
+The script used is as below:
+```
+#!/bin/sh
+set -e
+flutter test
+echo "All checks passed"
+echo "Commit Successful"
+```
 
 
 ## ER Diagram of this application.
