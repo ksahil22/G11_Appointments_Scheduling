@@ -6,14 +6,14 @@ class AppointmentCard extends StatelessWidget {
   final String title;
   final String day;
   final String time;
-  // final String petname;
+  final String petname;
 
   const AppointmentCard({
     Key? key,
     required this.title,
     required this.day,
     required this.time,
-    // required this.petname,
+    required this.petname,
   }) : super(key: key);
 
   @override

@@ -16,8 +16,8 @@ class DummySquareCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         // Add navigation to service detail screen
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ServicesDetailScreen()));
+        // Navigator.push(context,
+        //     MaterialPageRoute(builder: (context) => ServicesDetailScreen()));
       },
       child: Card(
         shape: ContinuousRectangleBorder(
