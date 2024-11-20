@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 import 'dart:developer';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:g11_appointment_scheduling/constants/color_const.dart';
@@ -16,34 +17,54 @@ import 'package:g11_appointment_scheduling/views/signin_screen.dart';
 
 class ServicesDetailScreen extends StatefulWidget {
   const ServicesDetailScreen(
-      {super.key, required this.serviceModel, required this.serviceId});
+      {super.key,
+      required this.firebaseAuth,
+      required this.firebaseFirestore,
+      required this.serviceModel,
+      required this.serviceId});
+  final FirebaseAuth firebaseAuth;
+  final FirebaseFirestore firebaseFirestore;
   final DoctorModel serviceModel;
   final String serviceId;
 
   @override
-  State<ServicesDetailScreen> createState() => _ServicesDetailScreenState();
+  State<ServicesDetailScreen> createState() => _ServicesDetailScreenState(
+        firebaseAuth: firebaseAuth,
+        firebaseFirestore: firebaseFirestore,
+      );
 }
 
 class _ServicesDetailScreenState extends State<ServicesDetailScreen> {
+  final FirebaseAuth firebaseAuth;
+  final FirebaseFirestore firebaseFirestore;
+
   String selectedDate = "";
   List<String> datesList = [];
   late OneHourAvaialabilityModel avaialabilityModel;
+
+  _ServicesDetailScreenState({
+    required this.firebaseAuth,
+    required this.firebaseFirestore,
+  });
 
   Future<OneHourAvaialabilityModel> getDates(String date) async {
     try {
       if (selectedDate == "") {
         datesList = HelperClass.generateDateList();
         selectedDate = HelperClass.getSameDayDate();
-        avaialabilityModel = await SlotsStatusViewModel()
-            .getOneHourAvailability(widget.serviceId, selectedDate);
+        avaialabilityModel =
+            await SlotsStatusViewModel(firestore: firebaseFirestore)
+                .getOneHourAvailability(widget.serviceId, selectedDate);
       } else {
-        avaialabilityModel = await SlotsStatusViewModel()
-            .getOneHourAvailability(widget.serviceId, selectedDate);
+        avaialabilityModel =
+            await SlotsStatusViewModel(firestore: firebaseFirestore)
+                .getOneHourAvailability(widget.serviceId, selectedDate);
       }
       return avaialabilityModel;
     } catch (e) {
       print(e);
-      return SlotsStatusViewModel().getEmptyOneHourModel();
+      return SlotsStatusViewModel(firestore: firebaseFirestore)
+          .getEmptyOneHourModel();
     }
   }
 
@@ -149,7 +170,7 @@ class _ServicesDetailScreenState extends State<ServicesDetailScreen> {
                             height: 8,
                           ),
                           SizedBox(
-                            height: 70,
+                            height: 100,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: datesList.length,
@@ -247,8 +268,7 @@ class _ServicesDetailScreenState extends State<ServicesDetailScreen> {
                               return GestureDetector(
                                 onTap: () async {
                                   if (isSlotAvailable) {
-                                    if (FirebaseAuth.instance.currentUser !=
-                                        null) {
+                                    if (firebaseAuth.currentUser != null) {
                                       showDialog(
                                         context: context,
                                         builder: (context) {
@@ -276,8 +296,7 @@ class _ServicesDetailScreenState extends State<ServicesDetailScreen> {
                                                               selectedDate,
                                                               singleSlotModel
                                                                   .hour,
-                                                              FirebaseAuth
-                                                                  .instance
+                                                              firebaseAuth
                                                                   .currentUser!
                                                                   .uid,
                                                               "petId",

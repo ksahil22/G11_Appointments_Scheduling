@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:g11_appointment_scheduling/constants/color_const.dart';
 import 'package:g11_appointment_scheduling/constants/text_const.dart';
@@ -23,10 +26,16 @@ class ServiceCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ServicesDetailScreen(
-                    serviceModel: model, serviceId: model.doctorName)));
+          context,
+          MaterialPageRoute(
+            builder: (context) => ServicesDetailScreen(
+              firebaseAuth: FirebaseAuth.instance,
+              firebaseFirestore: FirebaseFirestore.instance,
+              serviceModel: model,
+              serviceId: model.doctorName,
+            ),
+          ),
+        );
       },
       child: Card(
         shape: ContinuousRectangleBorder(
