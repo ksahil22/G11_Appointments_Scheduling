@@ -4,12 +4,14 @@ import 'package:g11_appointment_scheduling/constants/const.dart';
 import 'package:g11_appointment_scheduling/models/one_hour_model.dart';
 
 class SlotsStatusViewModel {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore firestore;
+
+  SlotsStatusViewModel({required this.firestore});
 
   Future<OneHourAvaialabilityModel> getOneHourAvailability(
       String serviceId, String date) async {
     try {
-      DocumentSnapshot snapshot = await _firestore
+      DocumentSnapshot snapshot = await firestore
           .collection(Constants.fcAvailability)
           .doc(serviceId)
           .collection(Constants.fcDates)
@@ -19,13 +21,13 @@ class SlotsStatusViewModel {
         return OneHourAvaialabilityModel.fromMap(
             snapshot.data() as Map<String, dynamic>);
       } else {
-        await _firestore
+        await firestore
             .collection(Constants.fcAvailability)
             .doc(serviceId)
             .collection(Constants.fcDates)
             .doc(date)
             .set(getEmptyOneHourModel().toMap());
-        DocumentSnapshot snapshot = await _firestore
+        DocumentSnapshot snapshot = await firestore
             .collection(Constants.fcAvailability)
             .doc(serviceId)
             .collection(Constants.fcDates)
