@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:g11_appointment_scheduling/constants/color_const.dart';
 import 'package:g11_appointment_scheduling/constants/text_const.dart';
@@ -18,12 +20,16 @@ class ServiceSquareCard extends StatelessWidget {
       onTap: () {
         // Add navigation to service detail screen
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ServicesDetailScreen(
-                      serviceId: model.doctorId,
-                      serviceModel: model,
-                    )));
+          context,
+          MaterialPageRoute(
+            builder: (context) => ServicesDetailScreen(
+              firebaseAuth: FirebaseAuth.instance,
+              firebaseFirestore: FirebaseFirestore.instance,
+              serviceId: model.doctorId,
+              serviceModel: model,
+            ),
+          ),
+        );
       },
       child: Card(
         shape: ContinuousRectangleBorder(
