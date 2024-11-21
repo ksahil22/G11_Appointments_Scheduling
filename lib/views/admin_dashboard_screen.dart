@@ -20,7 +20,6 @@ class Dashboard extends StatelessWidget {
   int todayAppointment = 0;
   int totalNumberOfCustomers = 0;
   List<AppointmentModel> appointments = [];
-  // List<ChatModel> chats = [];
 
   Future<String> getAnalyticsData() async {
     try {
@@ -56,27 +55,6 @@ class Dashboard extends StatelessWidget {
       return [];
     }
   }
-
-  // Future<List<ChatModel>> getRecentChats() async {
-  //   try {
-  //     // Fetch appointments for today
-  //     await FirebaseFirestore.instance
-  //         .collection(Constants.fcChatNode)
-  //         .orderBy(Constants.fcTimeStampChatNode, descending: true)
-  //         .limit(3)
-  //         .get()
-  //         .then((querySnapshot) {
-  //       querySnapshot.docs.forEach((doc) {
-  //         log(querySnapshot.docs.toString());
-  //         chats.add(ChatModel.fromMap(doc.data() as Map<String, dynamic>));
-  //       });
-  //     });
-  //     return chats;
-  //   } catch (e) {
-  //     log(e.toString());
-  //     return [];
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {

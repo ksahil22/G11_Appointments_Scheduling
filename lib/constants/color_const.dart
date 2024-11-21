@@ -6,8 +6,8 @@ Color softGrayStrokeCustomColor =
     const Color(0xFF263257).withOpacity(0.15); // stroke color
 Color primaryBlueSoftenCustomColor =
     const Color(0xFF263257); // soft version of main color for text
-Color softWhiteCustomColor = const Color(0xFFF8F8F8);
-Color TealLightCustomColor = const Color(0xFFC3E1E0);
-Color TealDarkCustomColor = const Color(0xFF128983);
-Color TealCustomButtonlightColor = const Color(0xFF2ED1C8);
-Color TealThemeCustomColor = const Color(0xFF149DA1);
+Color softWhiteCustomColor = const Color.fromARGB(255, 116, 114, 114);
+Color TealLightCustomColor = const Color.fromARGB(255, 13, 15, 15);
+Color TealDarkCustomColor = const Color.fromARGB(255, 0, 0, 0);
+Color TealCustomButtonlightColor = const Color.fromARGB(255, 255, 255, 255);
+Color TealThemeCustomColor = const Color.fromARGB(255, 0, 0, 0);

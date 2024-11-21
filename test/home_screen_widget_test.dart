@@ -10,7 +10,7 @@ void main() {
       await tester.pumpWidget(const MaterialApp(home: HomeScreen()));
 
       // Verify Title
-      expect(find.text('Medi Schedule'), findsOneWidget);
+      expect(find.text('MediSchedule'), findsOneWidget);
 
       // Verify the logo image is displayed
       expect(find.byType(Image), findsOneWidget);

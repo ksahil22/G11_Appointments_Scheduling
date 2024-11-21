@@ -122,7 +122,7 @@ class _ServicesDetailScreenState extends State<ServicesDetailScreen> {
                     ),
                   ),
                   Text(
-                    "₹ ${widget.serviceModel.doctorFees.toString()}",
+                    "\$ ${widget.serviceModel.doctorFees.toString()}",
                     style: kMainTitleBoldTextStyle.copyWith(
                       color: Colors.black,
                     ),
@@ -482,8 +482,8 @@ class _ServicesDetailScreenState extends State<ServicesDetailScreen> {
                                             fontWeight: FontWeight.bold,
                                             fontSize: 12,
                                             color: isSlotAvailable
-                                                ? Colors.black
-                                                : Colors.white,
+                                                ? Colors.white
+                                                : Colors.black,
                                           ),
                                         ),
                                       ],
@@ -559,7 +559,7 @@ class _ServicesDetailScreenState extends State<ServicesDetailScreen> {
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
-                                    TealCustomButtonlightColor, // Your desired color
+                                    TealDarkCustomColor, // Your desired color
                                 shape: ContinuousRectangleBorder(
                                   borderRadius: BorderRadius.circular(40),
                                 ),

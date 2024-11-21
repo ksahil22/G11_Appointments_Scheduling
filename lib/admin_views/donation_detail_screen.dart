@@ -111,7 +111,7 @@ class _DonationDetailState extends State<DonationDetail> {
                       child: Text(
                         "Donate",
                         style:
-                            kButtonBigTextStyle.copyWith(color: Colors.white),
+                            kButtonBigTextStyle.copyWith(color: Colors.black),
                       ),
                     ),
                   ),
