@@ -65,7 +65,7 @@ void main() {
       expect(find.text(model.doctorName), findsOneWidget);
 
       // Verify the doctor specific information
-      expect(find.text('₹ ' + model.doctorFees.toString()), findsOneWidget);
+      expect(find.text('\$ ' + model.doctorFees.toString()), findsOneWidget);
       expect(find.text('About service'), findsOneWidget);
       expect(find.text(model.about), findsOneWidget);
       expect(find.text('Dates'), findsOneWidget);
