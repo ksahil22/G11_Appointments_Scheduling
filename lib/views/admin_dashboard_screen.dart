@@ -70,7 +70,7 @@ class Dashboard extends StatelessWidget {
           },
         ),
         title: Center(
-          child: Text("Dashboard", style: kMainTitleBoldTextStyle),
+          child: Text("Admin Dashboard", style: kMainTitleBoldTextStyle),
         ),
         actions: [
           IconButton(
