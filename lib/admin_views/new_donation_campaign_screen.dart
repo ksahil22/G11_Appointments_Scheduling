@@ -86,7 +86,7 @@ class _NewDonationCampaignScreenState extends State<NewDonationCampaignScreen> {
                     controller: _patientNameController,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: TealLightCustomColor,
+                      fillColor: softWhiteCustomColor,
                       labelStyle: kSmallParaTextStyle,
                       labelText: 'Patient Name',
                       border: InputBorder.none, // Remove the border
@@ -116,7 +116,7 @@ class _NewDonationCampaignScreenState extends State<NewDonationCampaignScreen> {
                       labelText: 'Description of Condition',
                       labelStyle: kSmallParaTextStyle,
                       filled: true,
-                      fillColor: TealLightCustomColor,
+                      fillColor: softWhiteCustomColor,
                       border: InputBorder.none,
                     ),
                     maxLines: null,
@@ -145,7 +145,7 @@ class _NewDonationCampaignScreenState extends State<NewDonationCampaignScreen> {
                       labelText: 'Disease',
                       labelStyle: kSmallParaTextStyle,
                       filled: true,
-                      fillColor: TealLightCustomColor,
+                      fillColor: softWhiteCustomColor,
                       border: InputBorder.none,
                     ),
                     validator: (value) {
@@ -173,7 +173,7 @@ class _NewDonationCampaignScreenState extends State<NewDonationCampaignScreen> {
                       labelText: 'Deadline',
                       labelStyle: kSmallParaTextStyle,
                       filled: true,
-                      fillColor: TealLightCustomColor,
+                      fillColor: softWhiteCustomColor,
                       border: InputBorder.none,
                     ),
                     onTap: () => {},
@@ -196,7 +196,7 @@ class _NewDonationCampaignScreenState extends State<NewDonationCampaignScreen> {
                       labelText: 'Amount Required',
                       labelStyle: kSmallParaTextStyle,
                       filled: true,
-                      fillColor: TealLightCustomColor,
+                      fillColor: softWhiteCustomColor,
                       border: InputBorder.none,
                     ),
                     keyboardType: TextInputType.number,
@@ -228,7 +228,7 @@ class _NewDonationCampaignScreenState extends State<NewDonationCampaignScreen> {
                       labelText: 'Consulting Doctor Name',
                       labelStyle: kSmallParaTextStyle,
                       filled: true,
-                      fillColor: TealLightCustomColor,
+                      fillColor: softWhiteCustomColor,
                       border: InputBorder.none,
                     ),
                     validator: (value) {
@@ -256,7 +256,7 @@ class _NewDonationCampaignScreenState extends State<NewDonationCampaignScreen> {
                       labelText: 'Hospital Name',
                       labelStyle: kSmallParaTextStyle,
                       filled: true,
-                      fillColor: TealLightCustomColor,
+                      fillColor: softWhiteCustomColor,
                       border: InputBorder.none,
                     ),
                     validator: (value) {
@@ -283,7 +283,7 @@ class _NewDonationCampaignScreenState extends State<NewDonationCampaignScreen> {
                     child: Text(
                       'Add Prescription Images',
                       style: kSmallParaTextStyle.copyWith(
-                        color: Colors.white,
+                        color: Colors.black,
                       ),
                     ),
                   ),
@@ -303,7 +303,7 @@ class _NewDonationCampaignScreenState extends State<NewDonationCampaignScreen> {
                     child: Text(
                       'Add Patient Image',
                       style: kSmallParaTextStyle.copyWith(
-                        color: Colors.white,
+                        color: Colors.black,
                       ),
                     ),
                   ),
@@ -319,7 +319,7 @@ class _NewDonationCampaignScreenState extends State<NewDonationCampaignScreen> {
                         : Text(
                             'Submit',
                             style: kSmallParaTextStyle.copyWith(
-                              color: Colors.white,
+                              color: Colors.black,
                             ),
                           ),
                     style: ElevatedButton.styleFrom(

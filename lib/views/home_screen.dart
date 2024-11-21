@@ -75,19 +75,6 @@ class _HomeScreenState extends State<HomeScreen> {
           tilePadding: EdgeInsets.all(MediaQuery.of(context).size.width / 10),
           children: [
             ListTile(
-              leading: Container(
-                  height: 25,
-                  width: 25,
-                  child: SvgPicture.asset('assets/images/logo.svg')),
-              title: Text(
-                'MediSchedule',
-                style: kMainTitleBoldTextStyle.copyWith(fontSize: 18),
-              ),
-              onTap: () {
-                // Handle drawer item tap
-              },
-            ),
-            ListTile(
               leading: Icon(
                 Icons.bar_chart_rounded,
                 color: TealThemeCustomColor,
@@ -203,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   width: MediaQuery.of(context).size.width / 18,
                                 ),
                                 Text(
-                                  "Medi Schedule",
+                                  "MediSchedule",
                                   style: kSmallParaTextStyle.copyWith(
                                       color: Colors.white),
                                 ),
@@ -233,8 +220,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     Center(
                                       child: Container(
+                                        height: 240,
+                                        width: 160,
                                         child: SvgPicture.asset(
-                                            "assets/images/docbro2.svg"),
+                                          "assets/images/docbro2.svg",
+                                          // height: 240,
+                                          // width: 160,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -263,7 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Text(
                                   "Book Appointment",
                                   style: kButtonBigTextStyle.copyWith(
-                                      color: Colors.white),
+                                      color: Colors.black),
                                 ),
                               ),
                             ),
