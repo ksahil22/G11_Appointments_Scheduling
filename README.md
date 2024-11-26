@@ -29,13 +29,28 @@ echo "Commit Successful"
 ![image](https://github.com/user-attachments/assets/fc521c6e-6b0b-4b44-8048-b71b8c360843)
 
 Sprint 1 Completed Items:
-- Setup Flutter SDK in vscode and install all dependencies
-- Design database architecture and identify a cloud hosted service
-- Setup firebase Database for the project
-- Setup Github repo and github actions pipelines
-- Create an ER diagram
-- Design UI for Login and Signup
-- Design UI for Home page
-- Design UI for Doctor list and Upcoming appointments
-- Create the logout functionality
-- Design UI for Appointment booking screen
+- Setup Flutter SDK in vscode and install all dependencies.
+- Design database architecture and identify a cloud hosted service.
+- Setup firebase Database for the project.
+- Setup Github repo and github actions pipelines.
+- Create an ER diagram.
+- Design UI for Login and Signup.
+- Design UI for Home page.
+- Design UI for Doctor list and Upcoming appointments.
+- Create the logout functionality.
+- Design UI for Appointment booking screen.
+
+Sprint 2 Completed Items:
+
+- UI refinement of overall application.
+- Design Design Popup UI and integerating it.
+- Designing a UI for donation details.
+- Designing a UI for donation campaign list.
+- Handle backend side for appointments.
+- Define backend handlers for admin dashboard.
+- Design UI to add doctors.
+- Design backend handlers for adding doctors.
+- Implement Unit tests for homepage.
+- Implement unit tests for add doctor form.
+- Design UI to add donations.
+
