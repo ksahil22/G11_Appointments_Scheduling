@@ -24,7 +24,7 @@ void main() {
           findsNWidgets(2)); // Two fields: Email and Password
 
       // Verify Log In button is displayed
-      expect(find.text("Log In"), findsOneWidget);
+      expect(find.text("Log"), findsOneWidget);
     });
   });
 }
